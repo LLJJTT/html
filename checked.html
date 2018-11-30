@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<input class="shop" type="checkbox" checked="false" name="" value = "111">
+<input class="shop" type="checkbox" checked="false" name="" value = "222">
+<script>
+	var oShop = document.getElementsByClassName("shop")
+	for (var i = 0; i < oShop.length; i++) {
+		oShop[i].onchange = function(a){
+			console.log(this.value)
+		}
+	}
+</script>
+</body>
+</html>

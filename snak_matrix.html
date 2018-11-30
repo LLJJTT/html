@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>蛇形矩阵</title>
+	<style>
+		#box{
+			background: #9ce0dd;
+			text-align: center;
+		}
+		input{
+			margin-top: 10px;
+		}
+		ul,ol,li,a{
+			margin: 0;
+			padding: 0;
+			text-decoration: none;
+			list-style: none;
+		}
+		#container{
+			text-align: center;
+			background: #ddff8f;
+			margin: 10px auto;
+			overflow: auto;
+		}
+		div,li{
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<p>要显示的N*N蛇形矩阵大小</p>
+		<input id="num" type="number" placeholder="请输入">
+		<button id="btn">点击生成	</button>
+		<div id="container">
+			<ul id="numBox">
+			</ul>
+		</div>
+	</div>
+	
+	
+	<script>
+		var oBtn = document.getElementById('btn');
+		oBtn.onclick = function(){
+			var oNumVal = document.getElementById('num').value;
+			var oNumBox = document.getElementById('numBox');
+			var intVal = Number(oNumVal) 
+			snake(intVal);
+			for (var i = 0; i < intVal; i++) {
+				var eLi = document.createElement('li')
+				eLi.className = 'show_number'
+				oNumBox.appendChild(eLi)
+			}
+			var resultArr = snake(intVal)
+			var aLi = document.getElementsByClassName('show_number')
+			resultArr.map((item,index) =>{
+				
+				aLi[index].innerHTML = '<div>'+item+'</div>'
+			})
+		}
+		// 算法--------------------------------
+		function snake(num) {
+	    var result = new Array();
+	    var flag = 0, //当前循环次数,从0起
+	        item = 1, // 输出项
+	        i = 0, // 横坐标
+	        j = 0, // 纵坐标
+	        times; // 循环次数
+	    for (let a = 0; a < num; a++) {
+        result[a] = new Array();
+        for (let b = 0; b < num; b++) {
+            result[a][b] = 0;
+        }
+	    }
+	    // 顺时针输出函数
+	    function loop() {
+        // 循环左上角起始位置
+        if (i === j) {
+          result[i][j] = item; // 输入内容为奇数时，直接输出
+          for (j; j < num - flag - 1; j++) {
+              result[i][j] = item;
+              item++;
+          }
+        }
+        // 循环右上角
+        if (i < j) {
+          for (i; i < num - flag - 1; i++) {
+              result[i][j] = item;
+              item++;
+          }
+        }
+        // 判断是否为当次循环的左上角起始位置，此处为循环右下角
+        if (i === j && i > flag && j > flag) {
+          for (j; j > flag; j--) {
+              result[i][j] = item;
+              item++;
+          }
+        }
+        // 循环左下角，方法执行完成标志一次顺时针走完，横纵坐标加1，等待进入下次循环
+        if (i > j) {
+          for (i; i > flag; i--) {
+              result[i][j] = item;
+              item++;
+          }
+          i += 1;
+          j += 1;
+        }
+	    }
+	    // 循环次数为输入的值（偶数）的1/2*n，奇数为1/2*n+1
+	    if (num % 2 === 0) {
+        times = num / 2;
+	    } else {
+        times = num / 2 + 1;
+	    }
+	    for (flag; flag < times; flag++) {
+        loop();
+	    }
+	    return result;
+	}
+	</script>
+</body>
+</html>
